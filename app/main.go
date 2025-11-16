@@ -18,7 +18,6 @@ var (
 	db       *sql.DB
 	rdb      *redis.Client
 	useCache bool
-	first    bool
 )
 
 type User struct {
@@ -69,9 +68,8 @@ func getUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	jsonData, _ := json.Marshal(u)
 
-	if useCache && !first {
+	if useCache {
 		rdb.Set(ctx, cacheKey, jsonData, 60*time.Second)
-		first = true
 	}
 
 	w.Header().Set("Content-Type", "application/json")
