@@ -54,7 +54,7 @@ func getUserHandler(w http.ResponseWriter, r *http.Request) {
 	if useCache {
 		if data, err := rdb.Get(ctx, cacheKey).Result(); err == nil {
 			w.Header().Set("Content-Type", "application/json")
-			w.Write([]byte(data))
+			_, _ = w.Write([]byte(data))
 			return
 		}
 	}
@@ -73,5 +73,5 @@ func getUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonData)
+	_, _ = w.Write(jsonData)
 }
